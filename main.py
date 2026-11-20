@@ -1,7 +1,7 @@
 import json,os,urllib.request as r
 U=os.getenv("MAKEFUN_ENV_URL") or os._exit(2)
 V=[0,100,320,330,500,900,0]
-N=[0];L=15e3;R=(5,4,3,2);I=-10**9;H="abcdefgh";K=[-33,-31,-18,-14,14,18,31,33];G=[-17,-16,-15,-1,1,15,16,17];D=[-17,-15,15,17,-16,-1,1,16];W={}
+N=[0];L=8e3;R=(5,4,3,2);I=-10**9;H="abcdefgh";K=[-33,-31,-18,-14,14,18,31,33];G=[-17,-16,-15,-1,1,15,16,17];D=[-17,-15,15,17,-16,-1,1,16];W={}
 def S(q):return H[q&7]+f"{q//16+1}"
 def u(m):return S(m[0])+S(m[1])+("nbrq"[m[2]-2] if m[2] else "")
 def P(f):
@@ -100,8 +100,9 @@ def E(b,s):
 def O():
  N[0]+=1
  if N[0]>=L:raise TimeoutError
-def Q(b,s,c,e,a,z):
+def Q(b,s,c,e,a,z,q):
  O()
+ if q==0:return E(b,s)
  j=A(b,k(b,s),-s)
  t=E(b,s) if not j else a
  if t>=z:return z
@@ -110,13 +111,13 @@ def Q(b,s,c,e,a,z):
  m.sort(key=lambda x:-V[abs(b[x[1]])])
  for x in m:
   n,o,w=M(b,s,c,e,x)
-  v=-Q(n,-s,o,w,-z,-a)
+  v=-Q(n,-s,o,w,-z,-a,q-1)
   if v>=z:return z
   if v>a:a=v
  return a
 def T(b,s,c,e,d,a,z):
  O()
- if d==0:return Q(b,s,c,e,a,z)
+ if d==0:return Q(b,s,c,e,a,z,6)
  m=Y(b,s,c,e)
  if not m:return -9999 if A(b,k(b,s),-s) else 0
  h=(tuple(b),s);t=W.get(h)
@@ -145,9 +146,7 @@ def B(f,l):
  return u(y)
 def p(q,o):
  w=r.Request(U+q,json.dumps(o).encode())
- try:
-  with r.urlopen(w) as z:return json.load(z)
- except Exception:raise
+ with r.urlopen(w) as z:return json.load(z)
 while True:
  g=p("/game",{})
  if g["status"]=="done":break
