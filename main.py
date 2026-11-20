@@ -1,7 +1,7 @@
-import json,os,sys,urllib.request as r
-U=os.getenv("MAKEFUN_ENV_URL") or sys.exit("x")
+import json,os,urllib.request as r
+U=os.getenv("MAKEFUN_ENV_URL") or os._exit(2)
 V=[0,100,320,330,500,900,0]
-N=[0];L=12e3;R=(5,4,3,2);I=-10**9;H="abcdefgh";K=[-33,-31,-18,-14,14,18,31,33];G=[-17,-16,-15,-1,1,15,16,17];D=[-17,-15,15,17,-16,-1,1,16]
+N=[0];L=8e3;R=(5,4,3,2);I=-10**9;H="abcdefgh";K=[-33,-31,-18,-14,14,18,31,33];G=[-17,-16,-15,-1,1,15,16,17];D=[-17,-15,15,17,-16,-1,1,16]
 def S(q):return H[q&7]+f"{q//16+1}"
 def u(m):return S(m[0])+S(m[1])+("nbrq"[m[2]-2] if m[2] else "")
 def P(f):
@@ -33,7 +33,7 @@ def A(b,q,y):
   if not(q+o)&0x88 and b[q+o]==y:return 1
  return 0
 def k(b,s):return next(i for i,v in enumerate(b) if v==s*6)
-def g(b,s,c,e):
+def X(b,s,c,e):
  m=[]
  for f,v in enumerate(b):
   if v*s<=0:continue
@@ -73,7 +73,7 @@ def g(b,s,c,e):
  return m
 def Y(b,s,c,e):
  m=[];j=k(b,s)
- for x in g(b,s,c,e):
+ for x in X(b,s,c,e):
   n=M(b,s,c,e,x)[0]
   if not A(n,x[1] if x[0]==j else j,-s):m.append(x)
  return m
@@ -85,12 +85,10 @@ def M(b,s,c,e,m):
   else:n[t+1]=n[t-2];n[t-2]=0
  if p:n[t]=s*p
  o=c
- if f==4:o&=~3
- if f==116:o&=~12
- if f==0 or t==0:o&=~2
- if f==7 or t==7:o&=~1
- if f==112 or t==112:o&=~8
- if f==119 or t==119:o&=~4
+ for a,b in((4,3),(116,12)):
+  if f==a:o&=~b
+ for a,b in((0,2),(7,1),(112,8),(119,4)):
+  if f==a or t==a:o&=~b
  q=f+16*s if abs(v)==1 and abs(t-f)==32 else -1
  return n,o,q
 def E(b,s):
@@ -101,6 +99,8 @@ def E(b,s):
    t+=w*(V[a]+((y if w>0 else 7-y)*6 if a==1 else 0)+((7-abs(x-3)-abs(y-3))*3 if a in(2,3) else 0))
  return t*s
 def Q(b,s,c,e,a,z):
+ N[0]+=1
+ if N[0]>=L:raise TimeoutError
  t=E(b,s)
  if t>=z:return z
  if t>a:a=t
@@ -128,7 +128,6 @@ def T(b,s,c,e,d,a,z):
 def B(f,l):
  b,s,c,e=P(f);d={u(m):m for m in Y(b,s,c,e)}
  z=[d[x] for x in l if x in d]
- if not z:return l[0]
  N[0]=0;y=z[0];h=1
  try:
   while h<7:
