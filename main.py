@@ -1,7 +1,7 @@
 import json,os,urllib.request as r
 U=os.getenv("MAKEFUN_ENV_URL") or os._exit(2)
 V=[0,100,320,330,500,900,0]
-N=[0];L=8e3;R=(5,4,3,2);I=-10**9;H="abcdefgh";K=[-33,-31,-18,-14,14,18,31,33];G=[-17,-16,-15,-1,1,15,16,17];D=[-17,-15,15,17,-16,-1,1,16]
+N=[0];L=15e3;R=(5,4,3,2);I=-10**9;H="abcdefgh";K=[-33,-31,-18,-14,14,18,31,33];G=[-17,-16,-15,-1,1,15,16,17];D=[-17,-15,15,17,-16,-1,1,16];C={}
 def S(q):return H[q&7]+f"{q//16+1}"
 def u(m):return S(m[0])+S(m[1])+("nbrq"[m[2]-2] if m[2] else "")
 def P(f):
@@ -118,11 +118,11 @@ def T(b,s,c,e,d,a,z):
  if d==0:return Q(b,s,c,e,a,z)
  m=Y(b,s,c,e)
  if not m:return -9999 if A(b,k(b,s),-s) else 0
- m.sort(key=lambda x:-V[abs(b[x[1]])])
+ m.sort(key=lambda x:(-V[abs(b[x[1]])],-C.get(x,0)))
  for x in m:
   n,o,q=M(b,s,c,e,x)
   v=-T(n,-s,o,q,d-1,-z,-a)
-  if v>=z:return z
+  if v>=z:C[x]=C.get(x,0)+d*d;return z
   if v>a:a=v
  return a
 def B(f,l):
@@ -140,7 +140,7 @@ def B(f,l):
  except TimeoutError:pass
  return u(y)
 def p(q,o):
- w=r.Request(U+q,json.dumps(o).encode(),{"content-type":"application/json"})
+ w=r.Request(U+q,json.dumps(o).encode())
  try:
   with r.urlopen(w) as z:return json.load(z)
  except Exception:raise
