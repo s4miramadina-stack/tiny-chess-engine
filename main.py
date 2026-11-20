@@ -100,24 +100,23 @@ def E(b,s):
 def O():
  N[0]+=1
  if N[0]>=L:raise TimeoutError
-def Q(b,s,c,e,a,z,q):
+def Q(b,s,c,e,a,z):
  O()
- if q==0:return E(b,s)
- t=E(b,s)
+ j=A(b,k(b,s),-s)
+ t=E(b,s) if not j else a
  if t>=z:return z
  if t>a:a=t
- m=Y(b,s,c,e)
- if not A(b,k(b,s),-s):m=[x for x in m if b[x[1]] or x[2]]
+ m=Y(b,s,c,e) if j else [x for x in Y(b,s,c,e) if b[x[1]] or x[2]]
  m.sort(key=lambda x:-V[abs(b[x[1]])])
  for x in m:
   n,o,w=M(b,s,c,e,x)
-  v=-Q(n,-s,o,w,-z,-a,q-1)
+  v=-Q(n,-s,o,w,-z,-a)
   if v>=z:return z
   if v>a:a=v
  return a
 def T(b,s,c,e,d,a,z):
  O()
- if d==0:return Q(b,s,c,e,a,z,8)
+ if d==0:return Q(b,s,c,e,a,z)
  m=Y(b,s,c,e)
  if not m:return -9999 if A(b,k(b,s),-s) else 0
  h=(tuple(b),s);t=W.get(h)
